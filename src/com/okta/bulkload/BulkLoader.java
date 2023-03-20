@@ -26,6 +26,8 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.util.EntityUtils;
 import org.json.*;
 import org.apache.commons.codec.binary.Base64;
@@ -169,7 +171,12 @@ class Producer implements Runnable {
         activateUsers = configuration.getProperty("activateUsers");
         passwordHook = configuration.getProperty("passwordHook");
         rateLimitThreshold = Integer.valueOf(configuration.getProperty("rateLimitThreshold"));
-        httpclient = HttpClientBuilder.create().setRetryHandler(new DefaultHttpRequestRetryHandler(3, false)).build();
+        RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+        //httpclient = HttpClientBuilder.create().setRetryHandler(new DefaultHttpRequestRetryHandler(3, false)).build();
+		httpclient = HttpClientBuilder.create()
+						.setRetryHandler(new DefaultHttpRequestRetryHandler(3, false))
+						.setDefaultRequestConfig(requestConfig)
+						.build();
     }
     public void run() {
         try {
