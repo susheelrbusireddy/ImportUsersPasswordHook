@@ -1,4 +1,4 @@
-# ImportUsersPasswordHook
+# Import Users with PasswordHook as credential type
 
 Requirements:
 
